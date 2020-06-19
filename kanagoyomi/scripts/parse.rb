@@ -12,14 +12,31 @@ require 'when_exe'
 Encoding.default_external = 'UTF-8'
 Encoding.default_internal = 'UTF-8'
 
+urls = {}
+
+OpenURI
+path = "https://github.com/suchowan/when_exe/raw/master/test/events/ndl_koyomi.csv"
+open(path, 'r', {:ssl_verify_mode=>OpenSSL::SSL::VERIFY_NONE}) do |csv|
+  csv.read.each_line do |line|
+    year, url, comment = line.chomp.split(',', 3)
+    urls[year] = url.strip.sub('..', ' ～ ')
+  end
+end
+
 formats = Hash.new {|h,k| h[k]=[]}
 
 Dir.glob("#{When::Parts::Resource.root_dir}/data/kanagoyomi/null/*") do |path|
   open(path, 'r') do |null|
     open(path.sub('null','csv')+'.csv', 'w') do |csv|
+      path =~ /(\d+)$/
+      STDERR.puts "“#{$1}” undefined" unless urls[$1]
       csv.puts "# カンマ区切りテキスト形式です。"
-      csv.puts "# ・先頭カラム(“暦首,”など)は表成型に用いますので削除しないでください。"
       csv.puts "# ・表の区画内での改行は“/”で表記します。"
+      csv.puts "# ・先頭カラム(“暦首,”など)は表成型に用いますので削除しないでください。"
+      csv.puts "# ・カンマ“,”を追加・削除すると、その行が表成型できない場合があります。"
+      csv.puts "# 外部リンク"
+      csv.puts "# ・国会図書館 : https://dl.ndl.go.jp/info:ndljp/pid/#{urls[$1]}"
+      csv.puts "# ・hosi.org　 : http://hosi.org:3000/Note/#{$1}g"
       while (line=null.gets)
         line.gsub!(/FULL_MONTH|HALF_MONTH|DIRECTION_MAP|BLANK_FIELD/,'')
         line.gsub!(/<\/?small>/,'')
