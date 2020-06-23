@@ -67,19 +67,19 @@ Formats =
  ["正月", 6]=>
   ["<tr><td><big><b>%s</b></big></td><td><big><b>%s</b></big></td><td><big><b>%s</b></big></td><td><big><b>%s</b></big></td><td>%s</td><td_colspan=3>%s</td></tr>"],
  ["暦日1", 6]=>
-  ["<tr><td>%s／</td><td>%s</td><td>%s</td><td><big><b>%s</b></big></td><td>%s</td><td_colspan=3>%s</td></tr>"],
+  ["<tr><td>%s</td><td>%s</td><td>%s</td><td><big><b>%s</b></big></td><td>%s</td><td_colspan=3>%s</td></tr>"],
  ["暦日2", 6]=>
-  ["<tr><td>%s／</td><td>%s</td><td>%s</td><td_valign='center'_rowspan=2><big><b>%s</b></big></td><td>%s</td><td_colspan=3>%s</td></tr>"],
+  ["<tr><td>%s</td><td>%s</td><td>%s</td><td_valign='center'_rowspan=2><big><b>%s</b></big></td><td>%s</td><td_colspan=3>%s</td></tr>"],
  ["暦日0", 5]=>
-  ["<tr><td>%s／</td><td>%s</td><td>%s</td><td>%s</td><td_colspan=3>%s</td></tr>"],
+  ["<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td_colspan=3>%s</td></tr>"],
  ["暦日1", 5]=>
-  ["<tr><td>%s／</td><td>%s</td><td>%s</td><td><big><b>%s</b></big></td><td>%s</td><td_colspan=3></td></tr>"],
+  ["<tr><td>%s</td><td>%s</td><td>%s</td><td><big><b>%s</b></big></td><td>%s</td><td_colspan=3></td></tr>"],
  ["食記", 1]=>
   ["<tr><td_colspan=4_align='center'><big><b>%s</b></big></td><td_colspan=4></td></tr>"],
  ["暦日0", 4]=>
-  ["<tr><td>%s／</td><td>%s</td><td>%s</td><td>%s</td><td_colspan=3></td></tr>"],
+  ["<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td_colspan=3></td></tr>"],
  ["暦日2", 5]=>
-  ["<tr><td>%s／</td><td>%s</td><td>%s</td><td_valign='center'_rowspan=2><big><b>%s</b></big></td><td>%s</td><td_colspan=3></td></tr>"],
+  ["<tr><td>%s</td><td>%s</td><td>%s</td><td_valign='center'_rowspan=2><big><b>%s</b></big></td><td>%s</td><td_colspan=3></td></tr>"],
  ["暦末", 2]=>
   ["<tr><td_colspan=4_align=center><big><b>%s</b></big></td><td_colspan=4_align=center><big><b>%s</b></big></td></tr>"],
  ["三日", 6]=>
@@ -112,11 +112,12 @@ Dir.glob("#{When::Parts::Resource.root_dir}/data/kanagoyomi/csv/*") do |path|
     open(path.gsub('csv','html'), 'w') do |html|
       html.puts HEADER
       while (line=csv.gets)
-        type, *parts = line.chomp.split(',')
-        format = Formats[[type, parts.size]]
+        count, type, *parts = line.chomp.split(',')
+        parts.delete_at(3) if type == '《暦日0》'
+        format = Formats[[type[1...-1], parts.size]]
         if format
           html.puts format.first.gsub('_',' ') % (parts.map {|part| part.gsub('/','<br/>')})
-        elsif line !~ /^#/
+        elsif line !~ /,#/
           STDERR.puts "#{path} : #{line.chomp}"
         end
       end
