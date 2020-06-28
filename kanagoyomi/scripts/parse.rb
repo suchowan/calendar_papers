@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 =begin
-  Copyright (C) 2014-2020 Takashi SUGA
+  Copyright (C) 2020 Takashi SUGA
 
   You may use and/or modify this file according to the license
   described in the LICENSE.txt file included in https://github.com/suchowan/when_exe.
@@ -57,7 +57,11 @@ Dir.glob("#{When::Parts::Resource.root_dir}/data/kanagoyomi/null/*") do |path|
           parts << part
           '%s'
         end
-        formats[[type, parts.size]] << format
+        if type == '歳徳'
+          parts.delete_at(0)
+          format.sub!('%s', '　')
+        end
+        formats[[type, parts.size]] << format.gsub('_', ' ')
         formats[[type, parts.size]].uniq!
         STDERR.puts body unless body == format % parts
         parts.each do |part|
