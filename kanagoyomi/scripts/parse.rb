@@ -31,16 +31,17 @@ Dir.glob("#{When::Parts::Resource.root_dir}/data/kanagoyomi/null/*") do |path|
       path =~ /(\d+)$/
       year = $1
       STDERR.puts "“#{$1}” undefined" unless urls[$1]
-      csv.puts "《#{year}-" + '0000》,# カンマ区切りテキスト形式です。'
-      csv.puts "《#{year}-" + '0010》,# ・「みんなで翻刻」の各コマ編集では当該コマ外の行を削除してください。'
-      csv.puts "《#{year}-" + '0020》,# ・表の区画内での改行は“/”で表記します。'
-      csv.puts "《#{year}-" + '0030》,# ・《行番号》とその次のカラム(《暦首》など)は表成型に用いますので削除しないでください。'
-      csv.puts "《#{year}-" + '0040》,# ・カンマ","を追加・削除すると、その行が表成型できない場合があります。'
-      csv.puts "《#{year}-" + "0050》,# 外部リンク"
-      csv.puts "《#{year}-" + "0060》,# ・国会図書館 : https://dl.ndl.go.jp/info:ndljp/pid/#{urls[$1]}"
-      csv.puts "《#{year}-" + "0070》,# ・hosi.org　 : http://hosi.org:3000/Note/#{$1}g　(GitHub上データを表成型)"
-      csv.puts "《#{year}-" + "0080》,# 　　　　　　 　http://hosi.org:3000/Note/#{$1}h　(翻刻編集データを表成型 - 未実装)"
-      csv.puts "《#{year}-" + "0090》,# 　変体仮名例 : https://github.com/suchowan/calendar_papers/blob/master/kanagoyomi/picture/hentaigana_example.png"
+      csv
+      csv.puts "«#{year}-" + '0000»,【 カンマ区切りテキスト形式です。】'
+      csv.puts "«#{year}-" + '0010»,【 ・「みんなで翻刻」の各コマ編集では当該コマ外の行を削除してください。】'
+      csv.puts "«#{year}-" + '0020»,【 ・表の区画内での改行は“|”で表記します。】'
+      csv.puts "«#{year}-" + '0030»,【 ・«行番号»とその次のカラム(«暦首»など)は表成型に用いますので削除しないでください。】'
+      csv.puts "«#{year}-" + '0040»,【 ・カンマ","を追加・削除すると、その行が表成型できない場合があります。】'
+      csv.puts "«#{year}-" + "0050»,【 外部リンク　】"
+      csv.puts "«#{year}-" + "0060»,【 ・国会図書館 : https://dl.ndl.go.jp/info:ndljp/pid/#{urls[$1]}】"
+      csv.puts "«#{year}-" + "0070»,【 ・hosi.org　 : http://hosi.org:3000/Note/#{$1}h　(翻刻編集終了データを表成型して表示します)】"
+      csv.puts "«#{year}-" + "0080»,【 　　　　　　 　http://hosi.org:3000/Note/#{$1}ht (翻刻編集中データを表成型して表示します)】"
+      csv.puts "«#{year}-" + "0090»,【 　変体仮名例 : https://github.com/suchowan/calendar_papers/blob/master/kanagoyomi/picture/hentaigana_example.png 】"
       count = 100
       while (line=null.gets)
         line.gsub!(/FULL_MONTH|HALF_MONTH|DIRECTION_MAP|BLANK_FIELD/,'')
@@ -74,7 +75,7 @@ Dir.glob("#{When::Parts::Resource.root_dir}/data/kanagoyomi/null/*") do |path|
           }
         end
         parts[3,0] = '' if type == '暦日0'
-        csv.puts "《%04s-%04d》,《%s》,%s" % [year, count, type, parts.join(',').gsub(';','/').gsub(/[\(\)\[\]]/,'')]
+        csv.puts "«%04s-%04d»,«%s»,%s" % [year, count, type, parts.join(',').gsub('／','〳').gsub(';','|').gsub(/[\(\)\[\]]/,'')]
         count += 10
       end
     end

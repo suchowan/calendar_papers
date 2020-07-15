@@ -118,12 +118,12 @@ Dir.glob("#{When::Parts::Resource.root_dir}/data/kanagoyomi/csv/*") do |path|
       while (line=csv.gets)
         next if line =~ /^$/
         count, type, *parts = line.chomp.split(',')
-        parts << ('%02d' % (((year - 4) % 60) + 1)) if type == '《大歳》'
-        parts.delete_at(3) if type == '《暦日0》'
+        parts << ('%02d' % (((year - 4) % 60) + 1)) if type == '«大歳»'
+        parts.delete_at(3) if type == '«暦日0»'
         format = Formats[[type[1...-1], parts.size]]
         if format
-          html.puts format.first % (parts.map {|part| part.gsub('/','<br/>')})
-        elsif line !~ /,#/
+          html.puts format.first % (parts.map {|part| part.gsub('|','<br/>')})
+        elsif line !~ /,【/
           STDERR.puts "#{path} : #{line.chomp}"
         end
       end
