@@ -94,6 +94,8 @@ Formats =
   ["<tr><td align=center><big><b>%s</b></big></td><td align=center><big><b>%s</b></big></td><td colspan=4 align=center><big><b>%s</b></big></td><td colspan=2><big><b>%s</b></big></td></tr>"],
  ["三日", 5]=>
   ["<tr><td><big><b>%s</b></big></td><td><big><b>%s</b></big></td><td><big><b>%s</b></big></td><td><big><b>%s</b></big></td><td>%s</td><td colspan=3><big><b></b></big></td></tr>"],
+ ["正月", 5]=>
+  ["<tr><td><big><b>%s</b></big></td><td><big><b>%s</b></big></td><td><big><b>%s</b></big></td><td><big><b>%s</b></big></td><td colspan=4><big><b>%s</b></big></td></tr>"],
  ["前書", 17]=>
   ["<tr><td colspan=8><big><b><ul><li>%s、%s、%s、%s、%s、%s、%s、%s、%s、%s。%s、%s、%s</li></ul>%s<ruby><rb>%s</rb><rt>（%s）</rt></ruby><div align='right'>%s</div></b></big></td></tr>"],
  ["節中", 4]=>
@@ -117,13 +119,13 @@ Dir.glob("#{When::Parts::Resource.root_dir}/data/kanagoyomi/csv/*") do |path|
       html.puts HEADER
       while (line=csv.gets)
         next if line =~ /^$/
-        count, type, *parts = line.chomp.split(',')
+        count, type, *parts = line.chomp.split(/[,，]/)
         parts << ('%02d' % (((year - 4) % 60) + 1)) if type == '«大歳»'
         parts.delete_at(3) if type == '«暦日0»'
         format = Formats[[type[1...-1], parts.size]]
         if format
           html.puts format.first % (parts.map {|part| part.gsub('|','<br/>')})
-        elsif line !~ /,【/
+        elsif line !~ /[,，]【/
           STDERR.puts "#{path} : #{line.chomp}"
         end
       end

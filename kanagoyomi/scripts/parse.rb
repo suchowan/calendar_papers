@@ -75,6 +75,7 @@ Dir.glob("#{When::Parts::Resource.root_dir}/data/kanagoyomi/null/*") do |path|
           }
         end
         parts[3,0] = '' if type == '暦日0'
+        parts << '　' if type == '食記' && parts.size == 1
         csv.puts "«%04s-%04d»,«%s»,%s" % [year, count, type, parts.join(',').gsub('／','〳').gsub(';','|').gsub(/[\(\)\[\]]/,'')]
         count += 10
       end
