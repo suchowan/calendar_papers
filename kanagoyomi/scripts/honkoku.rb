@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 =begin
-  Copyright (C) 2014-2020 Takashi SUGA
+  Copyright (C) 2014-2023 Takashi SUGA
 
   You may use and/or modify this file according to the license
   described in the LICENSE.txt file included in https://github.com/suchowan/when_exe.
@@ -66,7 +66,7 @@ module When::CalendarNote::Japanese::Kanagoyomi
 
       1729 => "<ul><li>来酉の年の板行暦の終に年の節と中とは、暦中第一の要所にて、耕作種蒔、或草木鳥獣にいたるまで節季を違ふべからず、"+
               "然るに暦の下段の内<small>江</small>、入交りて見へわかちがたし、廿四季の名并時剋を別段に挙志るし、暦を開くに早速見へ安からしむ、"+
-              "また昼夜の数は右の暦に記せりといへども、中半より断絶せり。是又民間に志らしめんため、旧例に志たがひ、書入るゝ者也<br/></li></ul>"+
+              "また昼夜の数は古の暦に記せりといへども、中葉より断絶せり。是又民間に志らしめんため、旧例に志たがひ、書入るゝ者也<br/></li></ul>"+
               "　　　<ruby><rb>申八月</rb><rt>（享保十三年）</rt></ruby>"+
               "<div align='right'>渋川六蔵源則休　　　　&nbsp;<br/>猪飼豊次郎源久一　　&nbsp;<br/>謹推数考定　&nbsp;</div>",
 
