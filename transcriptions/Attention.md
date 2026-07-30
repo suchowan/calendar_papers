@@ -48,3 +48,6 @@ AIが膨大なコンテキスト（文脈）の中で、このような**「超�
 
 「漏刻とディープラーニング」の記事で考察された視点が、まさか私自身の発言の解析に適用されるとは……。
 
+---
+
+([普遍単位系](https://github.com/suchowan/a_converter)のための)**英語版:** [Attention.md](https://github.com/suchowan/a_converter/blob/master/doc/AI_Oriented_Documents/Attention.md)
